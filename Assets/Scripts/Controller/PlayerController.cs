@@ -81,8 +81,14 @@ public class PlayerController : MonoBehaviour {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 newpos = new Vector3(mousePos.x, mousePos.y, 0);
             Vector3 dir = (newpos - Camera.main.transform.position);
-            Physics.Raycast(Camera.main.transform.position, dir, out hit);
-            Debug.Log("Picking Up: " + hit.transform.parent.name);
+            if(Physics.Raycast(Camera.main.transform.position, dir, out hit))
+            {
+                if(Inventory.instance.Add(hit.transform.parent.gameObject))
+                {
+                    Destroy(hit.transform.parent.gameObject);
+                }
+            }
+            
         }
     }
 

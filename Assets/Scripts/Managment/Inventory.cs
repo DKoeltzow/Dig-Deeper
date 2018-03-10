@@ -6,6 +6,8 @@ public class Inventory : MonoBehaviour {
 
     public List<GameObject> inventory = new List<GameObject>();
 
+    public int Size;
+
     public delegate void OnInventoryChange();
     public static OnInventoryChange OnInventoryChanged;
 
@@ -19,12 +21,18 @@ public class Inventory : MonoBehaviour {
     }
     #endregion
 
-    public void Add(GameObject item)
+    public bool Add(GameObject item)
     {
-        inventory.Add(item);
+        if (inventory.Count < Size)
+        {
+            inventory.Add(item);
 
-        if (OnInventoryChanged != null)
-            OnInventoryChanged();
+            if (OnInventoryChanged != null)
+                OnInventoryChanged();
+
+            return true;
+        }
+        else return false;       
     }
 
     public void Remove(GameObject item)
