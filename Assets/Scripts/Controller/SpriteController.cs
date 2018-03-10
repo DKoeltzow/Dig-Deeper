@@ -7,8 +7,7 @@ public class SpriteController : MonoBehaviour {
     [SerializeField]
 
     private List<Sprite> TileSprites;
-
-	// Use this for initialization
+    
 	void Start ()
     {
         foreach (var sprite in TileSprites)

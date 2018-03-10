@@ -33,7 +33,9 @@ public class AttackController : MonoBehaviour
         {
             if(collider.gameObject.layer == 8)
             {
-                Destroy(collider.gameObject);
+                //Call Destroy function
+                collider.gameObject.GetComponent<TileController>().DestroyMe();
+                //Destroy(collider.gameObject);
             }            
         }
     }

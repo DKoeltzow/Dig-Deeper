@@ -10,7 +10,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private float airSpeed;
     [SerializeField]
-    private float verSpeed;
+    private float horizontal;
+    [SerializeField]
+    private float vertical;
+    [SerializeField]
+    private float jumpForce;
 
     private Rigidbody2D rigi;
     private Transform trans;
@@ -28,32 +32,33 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+        HandleMovement();
         HandleGravity();
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        HandleMovement(horizontal, jump);
     }
 
     private void Update()
     {
         LookAtMousePos();
         HandleInput();
-        if (Input.GetMouseButton(0))
+        if (Input.GetAxis("Fire1")!=0)
         {
             HandleAttack();
         }    
     }
 
-    private void HandleMovement(float hor,bool jump)
+    private void HandleMovement()
     {
-        if (!feet.GetComponent<FootController>().OnGround)
+        //if (!feet.GetComponent<FootController>().OnGround)
+        //{
+        //    rigi.velocity += new Vector2(horizontal * airSpeed, 0);
+        //    return;
+        //}
+        rigi.velocity = new Vector2(horizontal * movementSpeed, rigi.velocity.y);
+        if(jump)
         {
-            rigi.velocity += new Vector2(hor * airSpeed, 0);
-            return;
-        }
-        rigi.velocity = new Vector2(hor * movementSpeed, rigi.velocity.y);
-        if (feet.GetComponent<FootController>().OnGround && jump)
-        {
-            rigi.AddForce(new Vector2(0, verSpeed), ForceMode2D.Impulse);
+            rigi.AddForce(new Vector2(0, vertical*jumpForce), ForceMode2D.Impulse);
         }
 
     }
@@ -61,7 +66,10 @@ public class PlayerController : MonoBehaviour {
     //Key Inputs
     private void HandleInput()
     {
-        jump = Input.GetKey(KeyCode.W);
+        if (vertical != 0)        
+            jump = true;        
+        else
+            jump = false;            
     }
 
     //stops player from going too high
@@ -69,7 +77,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (trans.position.y > 2)
         {
-            rigi.gravityScale = 1+(1 * trans.position.y/20);
+            rigi.gravityScale = 1+(1 * trans.position.y);
         }
         else
             rigi.gravityScale = 1;
@@ -88,7 +96,9 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleAttack()
     {
-        attack.GetComponent<AttackController>().Attack();
-        Debug.Log("Attack");
+        if (feet.GetComponent<FootController>().OnGround)
+        {
+            attack.GetComponent<AttackController>().Attack();
+        } 
     }
 }

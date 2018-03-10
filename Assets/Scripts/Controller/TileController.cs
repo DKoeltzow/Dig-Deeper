@@ -22,8 +22,10 @@ public class TileController : MonoBehaviour
         render = this.gameObject.GetComponent<SpriteRenderer>();
         render.sprite = SpriteUpdater.GetSpriteByName(MyTileData.MyType.ToString());
     }
-    private void OnDestroy()
+
+    public void DestroyMe()
     {
+        Destroy(this.gameObject);
         CreateDrop();
     }
 
@@ -33,7 +35,5 @@ public class TileController : MonoBehaviour
         string name = MyTileData.MyType + "_Drop";
         Debug.Log(name);
         drop.GetComponent<SpriteRenderer>().sprite = SpriteUpdater.GetSpriteByName(name);
-    }
-
-    
+    }   
 }
