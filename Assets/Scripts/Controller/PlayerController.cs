@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour {
     {
         LookAtMousePos();
         HandleInput();
+        HandlePickup();
         if (Input.GetAxis("Fire1")!=0)
         {
             HandleAttack();
@@ -70,6 +71,19 @@ public class PlayerController : MonoBehaviour {
             jump = true;        
         else
             jump = false;            
+    }
+
+    private void HandlePickup()
+    {
+        if (Input.GetMouseButtonDown(1)) 
+        {
+            RaycastHit hit;
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 newpos = new Vector3(mousePos.x, mousePos.y, 0);
+            Vector3 dir = (newpos - Camera.main.transform.position);
+            Physics.Raycast(Camera.main.transform.position, dir, out hit);
+            Debug.Log("Picking Up: " + hit.transform.parent.name);
+        }
     }
 
     //stops player from going too high
