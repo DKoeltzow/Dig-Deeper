@@ -35,7 +35,6 @@ public class AttackController : MonoBehaviour
             {
                 //Call Destroy function
                 collider.gameObject.GetComponent<TileController>().DestroyMe();
-                //Destroy(collider.gameObject);
             }            
         }
     }
