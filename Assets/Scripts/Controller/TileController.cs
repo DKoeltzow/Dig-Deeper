@@ -33,7 +33,6 @@ public class TileController : MonoBehaviour
     {
         GameObject drop = Instantiate<GameObject>(DropPrefab, transform.position, Quaternion.identity);
         string name = MyTileData.MyType + "_Drop";
-        Debug.Log(name);
         drop.GetComponent<SpriteRenderer>().sprite = SpriteUpdater.GetSpriteByName(name);
     }   
 }
