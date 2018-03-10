@@ -28,8 +28,11 @@ public class AttackController : MonoBehaviour
     }
 
     public void Attack()
-    {
-        foreach (var collider in inTrigger)
+    {        
+
+        //TODO not destroy while in foreach loop
+
+        foreach (var collider in inTrigger.ToArray())
         {
             if(collider.gameObject.layer == 8)
             {
