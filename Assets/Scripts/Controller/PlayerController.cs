@@ -83,12 +83,16 @@ public class PlayerController : MonoBehaviour {
             Vector3 dir = (newpos - Camera.main.transform.position);
             if(Physics.Raycast(Camera.main.transform.position, dir, out hit))
             {
-                if(Inventory.instance.Add(hit.transform.parent.gameObject))
+                //Check for Ineractibility
+                if(InterActable.instance.IsInterActable(hit.transform.parent.gameObject))
                 {
-                    Destroy(hit.transform.parent.gameObject);
-                }
-            }
-            
+                    //ADD
+                    if (Inventory.instance.Add(hit.transform.parent.gameObject))
+                    {
+                        Destroy(hit.transform.parent.gameObject);
+                    }
+                }                
+            }            
         }
     }
 
